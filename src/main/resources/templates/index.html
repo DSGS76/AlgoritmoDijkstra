@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/head :: head('Algoritmo de Dijkstra')"></head>
+
+<body>
+    <header th:replace="fragments/header :: header"></header>
+    <main class="container">
+        <div class="hero">
+            <span class="hero-icon">&#128187;</span>
+            <h1 class="hero-title">Algoritmo de Dijkstra</h1>
+            <p class="hero-subtitle">Encuentra el camino más corto en grafos dirigidos con pesos</p>
+            <a th:href="@{/grafo/crear}" class="btn btn-primary hero-button">
+                <span class="icon-button">&#10148;</span> Crear Grafo
+            </a>
+        </div>
+    </main>
+    <footer th:replace="fragments/footer :: footer"></footer>
+</body>
+
+</html>

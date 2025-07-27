@@ -1,0 +1,53 @@
+fieldset {
+    margin-bottom: 1.5rem;
+    border: 1px solid #dbeafe;
+    border-radius: 10px;
+    padding: 1rem;
+    background: #f9fafb;
+}
+legend {
+    font-weight: bold;
+    color: #2980b9;
+    margin-bottom: 0.5em;
+}
+#resultado, #resultadoEntreDos {
+    margin-top: 2rem;
+    background: #eaf6fb;
+    padding: 1.2rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 1px 6px rgba(44,62,80,0.06);
+}
+.arista-highlight {
+    background: #ffe082 !important;
+    font-weight: bold;
+    border: 2px solid #fbc02d;
+}
+.help-text {
+    color: #888;
+    font-size: 0.97em;
+    margin-top: 0.7em;
+}
+
+/* Page title */
+.page-title {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+/* Icons in legends and buttons */
+.icon-legend {
+    font-size: 1.2em;
+}
+
+.icon-button {
+    font-size: 1.2em;
+}
+
+/* Labels */
+.label-bold {
+    font-weight: bold;
+}
+
+.label-spaced {
+    margin-left: 1em;
+}
