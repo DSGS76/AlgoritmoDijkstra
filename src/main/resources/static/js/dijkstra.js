@@ -61,4 +61,3 @@ function mostrarResultadoEntreDos(distancia, origen, destino) {
         div.innerHTML += `<p>Distancia mínima: <b>${distancia}</b></p>`;
     }
 }
-

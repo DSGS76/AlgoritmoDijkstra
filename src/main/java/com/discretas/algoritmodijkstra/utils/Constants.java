@@ -52,6 +52,7 @@ public final class Constants {
         public static final String GRAFO_SERVICE_PATH_DIJKSTRA = "/dijkstra";
         public static final String GRAFO_SERVICE_PATH_DIJKSTRA_DISTANCIA = "/dijkstra/distancia";
         public static final String GRAFO_SERVICE_PATH_CREAR = "/crear";
+
         private Grafo(){}
     }
 
