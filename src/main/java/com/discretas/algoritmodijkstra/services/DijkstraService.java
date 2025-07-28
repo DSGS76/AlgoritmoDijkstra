@@ -3,6 +3,7 @@ package com.discretas.algoritmodijkstra.services;
 import com.discretas.algoritmodijkstra.models.Arista;
 import com.discretas.algoritmodijkstra.models.Grafo;
 import com.discretas.algoritmodijkstra.models.Vertice;
+import com.discretas.algoritmodijkstra.presentation.dto.ApiResponseDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +31,8 @@ public class DijkstraService {
      * @param verticeInicioId El ID del vértice desde donde comenzar el cálculo
      * @return Un mapa con las distancias mínimas desde el vértice inicial a cada vértice
      */
-    public Map<String, Integer> calcularCaminoMasCorto(Grafo grafo, String verticeInicioId) {
+    public ApiResponseDTO<Map<String, Integer>> calcularCaminoMasCorto(Grafo grafo, String verticeInicioId) {
+        ApiResponseDTO<Map<String, Integer>> response = new ApiResponseDTO<>();
         // Mapa para almacenar la distancia mínima desde el vértice inicial a cada vértice
         Map<String, Integer> distancias = new HashMap<>();
 
@@ -87,7 +89,8 @@ public class DijkstraService {
         }
 
         // Retornar el mapa con las distancias mínimas desde el vértice inicial
-        return distancias;
+        response.SuccessOperation(distancias);
+        return response;
     }
 
     /**
@@ -99,25 +102,29 @@ public class DijkstraService {
      * @param verticeDestinoId El ID del vértice de destino
      * @return La distancia mínima entre los dos vértices, -1 si no hay camino o 0 si son el mismo vértice
      */
-    public int calcularDistanciaEntreVertices(Grafo grafo, String verticeOrigenId, String verticeDestinoId) {
+    public ApiResponseDTO<Integer>  calcularDistanciaEntreVertices(Grafo grafo, String verticeOrigenId, String verticeDestinoId) {
+        ApiResponseDTO<Integer> response = new ApiResponseDTO<>();
         // Si origen y destino son el mismo, la distancia es 0
         if (verticeOrigenId.equals(verticeDestinoId)) {
-            return 0;
+            response.SuccessOperation(0);
+            return response;
         }
 
         // Calcular todas las distancias desde el vértice origen
-        Map<String, Integer> distancias = calcularCaminoMasCorto(grafo, verticeOrigenId);
+        ApiResponseDTO<Map<String, Integer>> distancias = calcularCaminoMasCorto(grafo, verticeOrigenId);
 
         // Obtener la distancia al vértice destino
-        Integer distancia = distancias.get(verticeDestinoId);
+        Integer distancia = distancias.getData().get(verticeDestinoId);
 
         // Verificar si existe un camino válido al destino
         if (distancia == null || distancia == Integer.MAX_VALUE) {
             log.info("Distancia: Inalcanzable");
-            return -1; // No hay camino disponible
+            response.SuccessOperation();
+            return response; // No hay camino disponible
         } else {
             log.info("Distancia: " + distancia);
-            return distancia; // Retornar la distancia encontrada
+            response.SuccessOperation(distancia);
+            return response; // Retornar la distancia encontrada
         }
     }
 }

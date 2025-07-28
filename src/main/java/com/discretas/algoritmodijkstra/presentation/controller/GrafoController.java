@@ -1,9 +1,11 @@
 package com.discretas.algoritmodijkstra.presentation.controller;
 
 import com.discretas.algoritmodijkstra.models.Grafo;
+import com.discretas.algoritmodijkstra.presentation.dto.ApiResponseDTO;
 import com.discretas.algoritmodijkstra.services.DijkstraService;
 import com.discretas.algoritmodijkstra.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,10 +38,10 @@ public class GrafoController {
      * @return ResponseEntity con un mapa de vértices y sus distancias mínimas desde el vértice inicial
      */
     @PostMapping(Constants.Grafo.GRAFO_SERVICE_PATH_DIJKSTRA)
-    public ResponseEntity<Map<String, Integer>> dijkstra(@RequestBody Grafo grafo,
-                                                         @RequestParam String verticeInicio) {
-        Map<String, Integer> result = dijkstraService.calcularCaminoMasCorto(grafo, verticeInicio);
-        return ResponseEntity.ok(result);
+    public ResponseEntity<?> dijkstra(@RequestBody Grafo grafo,
+                                      @RequestParam String verticeInicio) {
+        ApiResponseDTO<Map<String, Integer>> result = dijkstraService.calcularCaminoMasCorto(grafo, verticeInicio);
+        return new ResponseEntity<>(result, HttpStatusCode.valueOf(result.getStatus()));
     }
 
     /**
@@ -51,10 +53,10 @@ public class GrafoController {
      * @return ResponseEntity con la distancia mínima entre los dos vértices, o -1 si no hay camino
      */
     @PostMapping(Constants.Grafo.GRAFO_SERVICE_PATH_DIJKSTRA_DISTANCIA)
-    public ResponseEntity<Integer> calcularDistanciaEntreVertices(@RequestBody Grafo grafo,
+    public ResponseEntity<?> calcularDistanciaEntreVertices(@RequestBody Grafo grafo,
                                                                   @RequestParam String verticeOrigen,
                                                                   @RequestParam String verticeDestino) {
-        int distancia = dijkstraService.calcularDistanciaEntreVertices(grafo, verticeOrigen, verticeDestino);
-        return ResponseEntity.ok(distancia);
+        ApiResponseDTO<Integer> distancia = dijkstraService.calcularDistanciaEntreVertices(grafo, verticeOrigen, verticeDestino);
+        return new ResponseEntity<>(distancia, HttpStatusCode.valueOf(distancia.getStatus()));
     }
 }

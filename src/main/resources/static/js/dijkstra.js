@@ -17,7 +17,7 @@ function ejecutarDijkstra() {
         body: JSON.stringify(grafo)
     })
     .then(resp => resp.ok ? resp.json() : Promise.reject("Error en el backend"))
-    .then(data => mostrarResultado(data))
+    .then(response => mostrarResultado(response.data))
     .catch(err => alert("Error: " + err));
 }
 
@@ -48,14 +48,14 @@ function ejecutarDijkstraEntreDos() {
         body: JSON.stringify(grafo)
     })
     .then(resp => resp.ok ? resp.json() : Promise.reject("Error en el backend"))
-    .then(data => mostrarResultadoEntreDos(data, verticeOrigen, verticeDestino))
+    .then(response => mostrarResultadoEntreDos(response.data, verticeOrigen, verticeDestino))
     .catch(err => alert("Error: " + err));
 }
 
 function mostrarResultadoEntreDos(distancia, origen, destino) {
     const div = document.getElementById("resultadoEntreDos");
     div.innerHTML = `<h3>Camino más corto de <b>${origen}</b> a <b>${destino}</b>:</h3>`;
-    if (distancia === -1) {
+    if (distancia === null) {
         div.innerHTML += "<p>No existe un camino entre los dos vértices.</p>";
     } else {
         div.innerHTML += `<p>Distancia mínima: <b>${distancia}</b></p>`;

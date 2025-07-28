@@ -65,7 +65,7 @@ function renderSelectInicio() {
         vertices.forEach(v => {
             const opt = document.createElement("option");
             opt.value = v.id;
-            opt.textContent = `${v.id} (${v.etiqueta})`;
+            opt.textContent = `${v.etiqueta} (${v.id})`;
             selectInicio.appendChild(opt);
         });
     }
@@ -74,7 +74,7 @@ function renderSelectInicio() {
         vertices.forEach(v => {
             const opt = document.createElement("option");
             opt.value = v.id;
-            opt.textContent = `${v.id} (${v.etiqueta})`;
+            opt.textContent = `${v.etiqueta} (${v.id})`;
             selectOrigen.appendChild(opt);
         });
     }
@@ -83,7 +83,7 @@ function renderSelectInicio() {
         vertices.forEach(v => {
             const opt = document.createElement("option");
             opt.value = v.id;
-            opt.textContent = `${v.id} (${v.etiqueta})`;
+            opt.textContent = `${v.etiqueta} (${v.id})`;
             selectDestino.appendChild(opt);
         });
     }
