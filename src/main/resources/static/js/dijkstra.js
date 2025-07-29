@@ -38,16 +38,29 @@ function mostrarResultado(data) {
     div.innerHTML = "<h3>🎯 Distancias desde el vértice de inicio:</h3>";
 
     const ul = document.createElement("ul");
-    Object.entries(data).forEach(([k, v], index) => {
+    Object.entries(data).forEach(([verticeId, resultado], index) => {
         const li = document.createElement("li");
         li.style.animationDelay = `${index * 0.1}s`;
+
+        // Verificar si resultado es un objeto con distancia y camino, o solo un número
+        let distancia, camino;
+        if (typeof resultado === 'object' && resultado !== null) {
+            distancia = resultado.distancia;
+            camino = resultado.camino || [];
+        } else {
+            // Compatibilidad con formato anterior (solo número)
+            distancia = resultado;
+            camino = [];
+        }
+
         li.innerHTML = `
             <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span><strong>${k}:</strong></span>
-                <span class="distance-badge" style="background: ${v === 2147483647 ? 'linear-gradient(135deg, #e74c3c, #c0392b)' : 'linear-gradient(135deg, #27ae60, #229954)'}; color: white; padding: 4px 12px; border-radius: 20px; font-weight: bold; font-size: 0.9rem;">
-                    ${v === 2147483647 ? "🚫 Inalcanzable" : `📏 ${v}`}
+                <span><strong>${verticeId}:</strong></span>
+                <span class="distance-badge" style="background: ${distancia === 2147483647 ? 'linear-gradient(135deg, #e74c3c, #c0392b)' : 'linear-gradient(135deg, #27ae60, #229954)'}; color: white; padding: 4px 12px; border-radius: 20px; font-weight: bold; font-size: 0.9rem;">
+                    ${distancia === 2147483647 ? "🚫 Inalcanzable" : `📏 ${distancia}`}
                 </span>
             </div>
+            ${distancia !== 2147483647 && camino.length > 0 ? createPathDisplay(camino) : ''}
         `;
         ul.appendChild(li);
     });
@@ -96,9 +109,9 @@ function ejecutarDijkstraEntreDos() {
             // Caso exitoso: hay un camino válido
             mostrarResultadoEntreDos(response.data, verticeOrigen, verticeDestino);
             showNotification("Cálculo completado exitosamente", "success");
-        } else if (response.status === 400 && response.data === 0) {
+        } else if (response.status === 400 && response.data && response.data.distancia === 0) {
             // Caso especial: origen y destino son iguales (BadOperation con data = 0)
-            mostrarResultadoEntreDos(0, verticeOrigen, verticeDestino);
+            mostrarResultadoEntreDos(response.data, verticeOrigen, verticeDestino);
             showNotification("Vértices origen y destino son iguales", "info");
         } else {
             // Caso de error: no hay camino (FailedOperation sin data)
@@ -112,12 +125,12 @@ function ejecutarDijkstraEntreDos() {
     });
 }
 
-function mostrarResultadoEntreDos(distancia, origen, destino) {
+function mostrarResultadoEntreDos(resultado, origen, destino) {
     const div = document.getElementById("resultadoEntreDos");
 
     let content = `<h3>🎯 Camino más corto de <strong style="color: var(--primary-color);">${origen}</strong> a <strong style="color: var(--accent-color);">${destino}</strong>:</h3>`;
 
-    if (distancia === null) {
+    if (resultado === null) {
         content += `
             <div class="result-message error-message" style="text-align: center; padding: 20px; border-radius: 10px; margin-top: 15px;">
                 <div style="font-size: 2.5rem; margin-bottom: 10px;">🚫</div>
@@ -125,12 +138,13 @@ function mostrarResultadoEntreDos(distancia, origen, destino) {
                 <p style="font-size: 0.9rem; margin: 5px 0 0 0; opacity: 0.8;">Los vértices no están conectados por ninguna ruta.</p>
             </div>
         `;
-    } else if (distancia === 0) {
+    } else if (resultado.distancia === 0) {
         content += `
             <div class="result-message success-message" style="text-align: center; padding: 20px; border-radius: 10px; margin-top: 15px;">
                 <div style="font-size: 2.5rem; margin-bottom: 10px;">🎯</div>
                 <p style="font-size: 1.1rem; margin: 0;"><strong>El vértice origen y destino son el mismo</strong></p>
                 <p style="font-size: 1.2rem; margin: 10px 0 0 0;">Distancia: <span style="background: linear-gradient(135deg, #27ae60, #229954); color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold;">📏 0</span></p>
+                ${createPathDisplay(resultado.camino)}
             </div>
         `;
     } else {
@@ -138,7 +152,8 @@ function mostrarResultadoEntreDos(distancia, origen, destino) {
             <div class="result-message success-message" style="text-align: center; padding: 20px; border-radius: 10px; margin-top: 15px;">
                 <div style="font-size: 2.5rem; margin-bottom: 10px;">✅</div>
                 <p style="font-size: 1.1rem; margin: 0;"><strong>¡Camino encontrado!</strong></p>
-                <p style="font-size: 1.3rem; margin: 15px 0 0 0;">Distancia mínima: <span style="background: linear-gradient(135deg, #3498db, #2980b9); color: white; padding: 8px 20px; border-radius: 25px; font-weight: bold; font-size: 1.1rem;">📏 ${distancia}</span></p>
+                <p style="font-size: 1.3rem; margin: 15px 0;">Distancia mínima: <span style="background: linear-gradient(135deg, #3498db, #2980b9); color: white; padding: 8px 20px; border-radius: 25px; font-weight: bold; font-size: 1.1rem;">📏 ${resultado.distancia}</span></p>
+                ${createPathDisplay(resultado.camino)}
             </div>
         `;
     }
@@ -153,6 +168,28 @@ function mostrarResultadoEntreDos(distancia, origen, destino) {
         div.style.opacity = '1';
         div.style.transform = 'translateY(0)';
     }, 100);
+}
+
+// Función para crear la visualización del camino con flechas
+function createPathDisplay(camino) {
+    if (!camino || camino.length === 0) {
+        return '';
+    }
+
+    let pathHtml = '<div class="path-display" style="margin-top: 10px;">';
+
+    for (let i = 0; i < camino.length; i++) {
+        // Mostrar directamente el ID del vértice
+        pathHtml += `<span class="path-vertex">${camino[i]}</span>`;
+
+        // Añadir flecha si no es el último elemento
+        if (i < camino.length - 1) {
+            pathHtml += '<span class="path-arrow">→</span>';
+        }
+    }
+
+    pathHtml += '</div>';
+    return pathHtml;
 }
 
 // Función auxiliar para agregar efectos de pulso a elementos importantes
@@ -178,7 +215,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (typeof vertices !== 'undefined' && vertices.length > 0) {
                         const selectedVertex = vertices.find(v => v.id === this.value);
                         if (selectedVertex) {
-                            showNotification(`Seleccionado: ${selectedVertex.etiqueta} (${selectedVertex.id})`, "info", 1500);
+                            showNotification(`Seleccionado: ${selectedVertex.id}`, "info", 1500);
                         }
                     }
                 });

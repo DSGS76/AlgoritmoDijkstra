@@ -1,4 +1,4 @@
-/* Estilos específicos para el módulo de grafo con animaciones mejoradas */
+/* Estilos específicos para el módulo de grafo - optimizado */
 
 /* Variables específicas del módulo */
 :root {
@@ -8,95 +8,59 @@
     --result-secondary: #f39c12;
 }
 
-/* Animaciones específicas para elementos del grafo */
+/* Animaciones específicas para elementos del grafo - reducidas */
 @keyframes verticeAdd {
-    0% {
-        transform: scale(0) rotate(180deg);
-        opacity: 0;
-    }
-    50% {
-        transform: scale(1.2) rotate(90deg);
-    }
-    100% {
-        transform: scale(1) rotate(0deg);
-        opacity: 1;
-    }
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
 }
 
 @keyframes aristaAdd {
-    0% {
-        transform: translateX(-100%);
-        opacity: 0;
-    }
-    50% {
-        transform: translateX(5px);
-    }
-    100% {
-        transform: translateX(0);
-        opacity: 1;
-    }
+    0% { transform: translateX(-20px); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
 }
 
 @keyframes removeItem {
-    0% {
-        transform: scale(1);
-        opacity: 1;
-    }
-    50% {
-        transform: scale(1.1);
-        background: var(--accent-color);
-        color: white;
-    }
-    100% {
-        transform: scale(0);
-        opacity: 0;
-    }
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(0.8); opacity: 0; }
 }
 
 @keyframes resultAppear {
-    0% {
-        opacity: 0;
-        transform: translateY(30px) scale(0.8);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
+    0% { opacity: 0; transform: translateY(15px); }
+    100% { opacity: 1; transform: translateY(0); }
 }
 
-/* Override de fieldset específico para grafo */
+/* Fieldset específico para grafo */
 fieldset {
     margin-bottom: 1.5rem;
     border: 2px solid var(--primary-color);
     border-radius: var(--border-radius);
-    padding: 1.5rem;
-    padding-top: 2rem;
-    background-color: white;
+    padding: 1.5rem 2rem 2rem;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
     transition: all var(--transition-speed) ease;
     position: relative;
-    overflow: visible;
-}
-
-fieldset:hover {
-    transform: scale(1.02);
     box-shadow: var(--card-shadow);
 }
 
-legend {
-    font-weight: bold;
-    font-size: 1.2rem;
-    padding: 0.5rem 1rem;
-    margin-bottom: 0;
-    position: relative;
-    top: -1rem;
-    left: 0;
-    border-radius: 15px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(52, 152, 219, 0.2);
-    z-index: 1;
+fieldset:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--card-shadow-hover);
 }
 
-/* Mejoras específicas para listas de vértices y aristas */
+legend {
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 0.7rem 1.2rem;
+    background: white;
+    border: 2px solid var(--primary-color);
+    border-radius: 25px;
+    color: var(--secondary-color);
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.2);
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+/* Listas de vértices y aristas */
 .list-section {
     min-height: 120px;
     border: 2px dashed #e0e0e0;
@@ -106,16 +70,25 @@ legend {
     transition: all var(--transition-speed) ease;
     background: linear-gradient(135deg, #fafafa, #f5f7fa);
     position: relative;
-    overflow: hidden;
 }
 
 .list-section:hover {
     border-color: var(--primary-color);
     background: linear-gradient(135deg, #f0f8ff, #e6f3ff);
-    transform: scale(1.01);
 }
 
-/* Elementos individuales de lista mejorados */
+.list-section:empty::before {
+    content: 'No hay elementos agregados';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #7f8c8d;
+    font-style: italic;
+    opacity: 0.6;
+}
+
+/* Elementos individuales mejorados */
 .list-section > div {
     background: white;
     padding: 1rem;
@@ -128,16 +101,31 @@ legend {
     justify-content: space-between;
     align-items: center;
     position: relative;
-    overflow: hidden;
 }
 
 .list-section > div:hover {
     transform: translateX(8px) scale(1.02);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-    border-left-color: var(--accent-color);
 }
 
-/* Clases específicas para animaciones de elementos */
+.list-section > div button {
+    background: linear-gradient(135deg, var(--accent-color), #c0392b);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.list-section > div button:hover {
+    background: linear-gradient(135deg, #c0392b, var(--accent-color));
+    transform: scale(1.05);
+}
+
+/* Clases específicas para animaciones */
 .vertice-item {
     animation: verticeAdd 0.6s var(--animation-bounce);
     border-left-color: var(--vertex-color) !important;
@@ -152,8 +140,8 @@ legend {
     animation: removeItem 0.4s ease-out forwards;
 }
 
-/* Resultados mejorados específicos */
-#resultado, #resultadoEntreDos {
+/* Resultados específicos */
+.result-card {
     margin-top: 2rem;
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
@@ -163,70 +151,37 @@ legend {
     border-left: 5px solid var(--primary-color);
     animation: resultAppear 0.8s var(--animation-bounce);
     transition: all var(--transition-speed) ease;
-    position: relative;
-    overflow: hidden;
 }
 
-#resultado::before, #resultadoEntreDos::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 50px;
-    height: 50px;
-    background: radial-gradient(circle, rgba(52, 152, 219, 0.1), transparent);
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-}
-
-#resultado {
-    border-left-color: var(--result-primary);
-}
-
-#resultadoEntreDos {
-    border-left-color: var(--result-secondary);
-}
-
-#resultado:hover, #resultadoEntreDos:hover {
+.result-card:hover {
     transform: translateY(-5px);
     box-shadow: var(--card-shadow-hover);
 }
 
-/* Títulos de resultado con iconos */
-#resultado h3, #resultadoEntreDos h3 {
+.result-card:not(:empty) {
+    cursor: pointer;
+}
+
+.result-card:empty {
+    display: none;
+}
+
+.result-card h3 {
     color: var(--secondary-color);
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
-    position: relative;
-    padding-left: 2rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
-#resultado h3::before {
-    content: '🎯';
-    position: absolute;
-    left: 0;
-    top: 0;
-    font-size: 1.2em;
-    animation: pulse 2s infinite;
-}
-
-#resultadoEntreDos h3::before {
-    content: '📍';
-    position: absolute;
-    left: 0;
-    top: 0;
-    font-size: 1.2em;
-    animation: pulse 2s infinite;
-}
-
-/* Listas de resultados mejoradas */
-#resultado ul, #resultadoEntreDos ul {
+.result-card ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-#resultado li, #resultadoEntreDos li {
+.result-card li {
     background: linear-gradient(135deg, #f8f9fa, #e9ecef);
     padding: 1rem 1.2rem;
     margin-bottom: 0.8rem;
@@ -236,34 +191,201 @@ legend {
     animation: fadeInUp 0.3s ease-out;
     animation-fill-mode: both;
     transition: all var(--transition-speed) ease;
-    position: relative;
-    overflow: hidden;
 }
 
-#resultado li:hover, #resultadoEntreDos li:hover {
+.result-card li:hover {
     background: linear-gradient(135deg, #e3f2fd, #bbdefb);
     transform: translateX(10px) scale(1.02);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
 }
 
-/* Destacar aristas especiales */
-.arista-highlight {
-    background: linear-gradient(135deg, #ffe082, #ffcc02) !important;
-    font-weight: bold;
-    border: 2px solid #fbc02d !important;
-    border-radius: 8px;
-    animation: pulse 1.5s infinite;
-    box-shadow: 0 4px 15px rgba(251, 192, 45, 0.3);
+/* Estilos específicos para las cajas de resultados con colores diferenciados */
+.result-primary {
+    border-left-color: var(--success-color) !important;
 }
 
-/* Texto de ayuda mejorado */
+.result-primary h3 {
+    color: var(--success-color) !important;
+}
+
+.result-secondary {
+    border-left-color: var(--warning-color) !important;
+}
+
+.result-secondary h3 {
+    color: var(--warning-color) !important;
+}
+
+/* Estilos específicos para las cajas de Dijkstra con colores diferenciados */
+.dijkstra-primary {
+    border-color: var(--success-color) !important;
+}
+
+.dijkstra-primary legend {
+    border-color: var(--success-color) !important;
+    color: var(--success-color) !important;
+    box-shadow: 0 4px 15px rgba(39, 174, 96, 0.2);
+}
+
+.dijkstra-secondary {
+    border-color: var(--warning-color) !important;
+}
+
+.dijkstra-secondary legend {
+    border-color: var(--warning-color) !important;
+    color: var(--warning-color) !important;
+    box-shadow: 0 4px 15px rgba(243, 156, 18, 0.2);
+}
+
+/* Espaciado específico para las cajas de Dijkstra */
+.dijkstra-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.dijkstra-container label {
+    margin-bottom: 0.5rem;
+    margin-top: 0.8rem;
+}
+
+.dijkstra-container label:first-of-type {
+    margin-top: 0;
+}
+
+.dijkstra-container select {
+    margin-bottom: 0.8rem;
+}
+
+/* Botones específicos para Dijkstra con color naranja */
+.btn-dijkstra {
+    background: linear-gradient(135deg, var(--warning-color), #e67e22);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all var(--transition-speed) ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+    margin-top: 0.8rem;
+    width: 100%;
+}
+
+.btn-dijkstra:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(243, 156, 18, 0.4);
+    background: linear-gradient(135deg, #e67e22, var(--warning-color));
+}
+
+.btn-dijkstra:active {
+    transform: translateY(0);
+}
+
+/* Botones específicos para cada caja de Dijkstra */
+.btn-dijkstra-primary {
+    background: linear-gradient(135deg, var(--success-color), #229954);
+    box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+}
+
+.btn-dijkstra-primary:hover {
+    background: linear-gradient(135deg, #229954, var(--success-color));
+    box-shadow: 0 8px 25px rgba(39, 174, 96, 0.4);
+}
+
+.btn-dijkstra-secondary {
+    background: linear-gradient(135deg, var(--warning-color), #e67e22);
+    box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+}
+
+.btn-dijkstra-secondary:hover {
+    background: linear-gradient(135deg, #e67e22, var(--warning-color));
+    box-shadow: 0 8px 25px rgba(243, 156, 18, 0.4);
+}
+
+/* Caminos mostrados como aristas con flechas */
+.path-display {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+    padding: 0.8rem;
+    background: rgba(52, 152, 219, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(52, 152, 219, 0.2);
+}
+
+.path-vertex {
+    background: linear-gradient(135deg, var(--vertex-color), #2980b9);
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+}
+
+.path-arrow {
+    color: var(--edge-color);
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.distance-badge {
+    background: linear-gradient(135deg, #27ae60, #229954);
+    color: white;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 8px rgba(39, 174, 96, 0.3);
+}
+
+.distance-badge.unreachable {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
+}
+
+/* Labels mejorados */
+.label-bold {
+    font-weight: 600;
+    color: var(--secondary-color);
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    display: block;
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.label-bold::before {
+    content: '▶';
+    position: absolute;
+    left: 0;
+    color: var(--primary-color);
+    font-size: 0.8em;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: transform 0.3s ease;
+}
+
+.label-bold:hover::before {
+    transform: translateY(-50%) scale(1.2);
+}
+
+/* Texto de ayuda */
 .help-text {
     color: #7f8c8d;
     font-size: 0.9rem;
     font-style: italic;
-    margin-top: 0.7em;
+    margin-top: 0.7rem;
     opacity: 0.8;
-    transition: all var(--transition-speed) ease;
     padding: 0.5rem;
     border-radius: 5px;
     background: rgba(127, 140, 141, 0.1);
@@ -279,20 +401,10 @@ legend {
 .help-text:hover {
     opacity: 1;
     background: rgba(127, 140, 141, 0.15);
-    transform: translateX(5px);
     color: var(--secondary-color);
 }
 
-/* Iconos en leyendas y botones */
-.icon-legend {
-    font-size: 1.3em;
-    margin-right: 0.5rem;
-    display: inline-block;
-    animation: pulse 2s infinite;
-    color: var(--primary-color);
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-}
-
+/* Iconos en botones */
 .icon-button {
     font-size: 1.1em;
     margin-right: 0.3rem;
@@ -304,39 +416,7 @@ button:hover .icon-button {
     transform: scale(1.2) rotate(360deg);
 }
 
-/* Labels mejorados específicos */
-.label-bold {
-    font-weight: 600;
-    color: var(--secondary-color);
-    margin-bottom: 0.5rem;
-    font-size: 1rem;
-    display: block;
-    position: relative;
-    padding-left: 1rem;
-}
-
-.label-bold::before {
-    content: '▶';
-    position: absolute;
-    left: 0;
-    color: var(--primary-color);
-    font-size: 0.8em;
-    top: 50%;
-    transform: translateY(-50%);
-    transition: transform 0.3s ease;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-}
-
-.label-bold:hover::before {
-    transform: translateY(-50%) scale(1.2);
-}
-
-.label-spaced {
-    margin-left: 1em;
-    margin-top: 1rem;
-}
-
-/* Estados especiales para mensajes en resultados */
+/* Estados especiales para mensajes */
 .success-message {
     background: linear-gradient(135deg, #d4edda, #c3e6cb);
     border-left-color: var(--success-color);
@@ -358,7 +438,7 @@ button:hover .icon-button {
     animation: bounceIn 0.6s ease-out;
 }
 
-/* Delay escalonado para elementos específicos */
+/* Delay escalonado para elementos */
 .list-section > div:nth-child(1) { animation-delay: 0.1s; }
 .list-section > div:nth-child(2) { animation-delay: 0.2s; }
 .list-section > div:nth-child(3) { animation-delay: 0.3s; }
@@ -366,7 +446,7 @@ button:hover .icon-button {
 .list-section > div:nth-child(5) { animation-delay: 0.5s; }
 .list-section > div:nth-child(n+6) { animation-delay: 0.6s; }
 
-/* Responsive específico para grafo */
+/* Responsive específico */
 @media (max-width: 768px) {
     .list-section {
         min-height: 80px;
@@ -380,11 +460,11 @@ button:hover .icon-button {
         gap: 0.5rem;
     }
 
-    .icon-legend {
-        font-size: 1.1em;
-    }
-
     fieldset {
         padding: 1rem;
+    }
+
+    .path-display {
+        justify-content: center;
     }
 }

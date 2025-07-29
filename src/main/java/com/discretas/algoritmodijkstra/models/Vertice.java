@@ -20,14 +20,8 @@ public class Vertice {
 
     /**
      * Identificador único del vértice.
-     * Se utiliza para referenciar el vértice en las aristas.
+     * Se utiliza para referenciar el vértice en las aristas y como nombre descriptivo.
      */
     private String id;
-
-    /**
-     * Etiqueta descriptiva del vértice.
-     * Puede ser utilizada para mostrar información adicional al usuario.
-     */
-    private String etiqueta;
 
 }

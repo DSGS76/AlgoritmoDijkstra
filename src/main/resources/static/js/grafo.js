@@ -180,13 +180,10 @@ async function agregarVertice() {
         return;
     }
 
-    const etiqueta = await showCustomPrompt("Etiqueta del vértice:", "Ingrese la etiqueta", id);
-    if (etiqueta === null) return;
-
-    vertices.push({ id, etiqueta: etiqueta || id });
+    vertices.push({ id });
     renderVertices();
     renderSelectInicio();
-    showNotification(`Vértice "${etiqueta || id}" agregado exitosamente`, "success");
+    showNotification(`Vértice "${id}" agregado exitosamente`, "success");
 }
 
 function eliminarVertice(id) {
@@ -203,7 +200,7 @@ function eliminarVertice(id) {
             renderVertices();
             renderAristas();
             renderSelectInicio();
-            showNotification(`Vértice "${vertice.etiqueta}" eliminado`, "success");
+            showNotification(`Vértice "${id}" eliminado`, "success");
         }, 400);
     } else {
         // Fallback si no se encuentra el elemento
@@ -212,7 +209,7 @@ function eliminarVertice(id) {
         renderVertices();
         renderAristas();
         renderSelectInicio();
-        showNotification(`Vértice "${vertice.etiqueta}" eliminado`, "success");
+        showNotification(`Vértice "${id}" eliminado`, "success");
     }
 }
 
@@ -224,14 +221,14 @@ function renderVertices() {
         div.className = 'vertice-item';
         div.setAttribute('data-vertice-id', v.id);
         div.style.animationDelay = `${index * 0.1}s`;
-        div.innerHTML = `${v.etiqueta} (${v.id}) <button type="button" onclick="eliminarVertice('${v.id}')">Eliminar</button>`;
+        div.innerHTML = `${v.id} <button type="button" onclick="eliminarVertice('${v.id}')">Eliminar</button>`;
         cont.appendChild(div);
     });
 }
 
 async function agregarArista() {
-    if (vertices.length < 2) {
-        showNotification("Agrega al menos dos vértices primero", "warning");
+    if (vertices.length < 1) {
+        showNotification("Agrega al menos un vértice primero", "warning");
         return;
     }
 
@@ -241,11 +238,7 @@ async function agregarArista() {
     const fin = await showCustomPrompt("ID del vértice de fin:", `Vértices disponibles: ${vertices.map(v => v.id).join(', ')}`);
     if (!fin) return;
 
-    if (inicio === fin) {
-        showNotification("El vértice de inicio y fin no pueden ser el mismo", "error");
-        return;
-    }
-
+    // Permitir lazos (inicio === fin)
     if (!vertices.find(v => v.id === inicio) || !vertices.find(v => v.id === fin)) {
         showNotification("Uno o ambos vértices no existen", "error");
         return;
@@ -262,9 +255,11 @@ async function agregarArista() {
 
     // Generar un ID único para la arista
     const aristaId = `a${aristaIdCounter++}`;
+    const aristaTexto = inicio === fin ? `${inicio} ↻ (lazo, peso: ${peso})` : `${inicio} → ${fin} (peso: ${peso})`;
+
     aristas.push({ id: aristaId, inicio, fin, peso });
     renderAristas();
-    showNotification(`Arista ${inicio} → ${fin} (peso: ${peso}) agregada`, "success");
+    showNotification(`Arista ${aristaTexto} agregada`, "success");
 }
 
 function eliminarArista(id) {
@@ -321,7 +316,7 @@ function renderSelectInicio() {
                 vertices.forEach(v => {
                     const opt = document.createElement("option");
                     opt.value = v.id;
-                    opt.textContent = `${v.etiqueta} (${v.id})`;
+                    opt.textContent = v.id;
                     select.appendChild(opt);
                 });
 
@@ -356,16 +351,14 @@ window.onload = function() {
     renderAristas();
     renderSelectInicio();
 
-    // Agregar efectos de entrada a las tarjetas
-    const cards = document.querySelectorAll('.card');
-    cards.forEach((card, index) => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(30px)';
+    // Agregar efectos de entrada secuencial a las tarjetas (fieldsets)
+    const fieldsets = document.querySelectorAll('fieldset');
+    fieldsets.forEach((fieldset, index) => {
+        // Aplicar clase de animación con delay
         setTimeout(() => {
-            card.style.transition = 'all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-        }, index * 200);
+            fieldset.classList.add('animate-in');
+            fieldset.style.animationDelay = `${index * 0.2}s`;
+        }, 100);
     });
 
     showNotification("¡Aplicación iniciada correctamente!", "success", 2000);

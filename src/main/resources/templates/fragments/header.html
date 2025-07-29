@@ -1,9 +1,18 @@
 <header th:fragment="header">
     <nav class="main-nav">
         <div class="nav-content">
+            <div class="nav-brand">
+                <h1>🔗 Algoritmo de Dijkstra</h1>
+            </div>
             <div class="nav-links">
-                <a th:href="@{/}" class="nav-link">Inicio</a>
-                <a th:href="@{/grafo/crear}" class="nav-link">Crear Grafo</a>
+                <a th:href="@{/}" class="nav-link">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-text">Inicio</span>
+                </a>
+                <a th:href="@{/grafo/crear}" class="nav-link">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-text">Crear Grafo</span>
+                </a>
             </div>
         </div>
     </nav>
