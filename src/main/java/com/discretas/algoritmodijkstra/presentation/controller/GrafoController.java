@@ -1,7 +1,7 @@
 package com.discretas.algoritmodijkstra.presentation.controller;
 
 import com.discretas.algoritmodijkstra.models.Grafo;
-import com.discretas.algoritmodijkstra.models.ResultadoDijkstra;
+import com.discretas.algoritmodijkstra.presentation.dto.DijkstraDTO;
 import com.discretas.algoritmodijkstra.presentation.dto.ApiResponseDTO;
 import com.discretas.algoritmodijkstra.services.DijkstraService;
 import com.discretas.algoritmodijkstra.utils.Constants;
@@ -39,7 +39,7 @@ public class GrafoController {
     @PostMapping(Constants.Grafo.GRAFO_SERVICE_PATH_DIJKSTRA)
     public ResponseEntity<?> dijkstra(@RequestBody Grafo grafo,
                                       @RequestParam String verticeInicio) {
-        ApiResponseDTO<Map<String, ResultadoDijkstra>> result = dijkstraService.calcularCaminoMasCorto(grafo, verticeInicio);
+        ApiResponseDTO<Map<String, DijkstraDTO>> result = dijkstraService.calcularCaminoMasCorto(grafo, verticeInicio);
         return new ResponseEntity<>(result, HttpStatusCode.valueOf(result.getStatus()));
     }
 
@@ -55,7 +55,7 @@ public class GrafoController {
     public ResponseEntity<?> calcularDistanciaEntreVertices(@RequestBody Grafo grafo,
                                                                   @RequestParam String verticeOrigen,
                                                                   @RequestParam String verticeDestino) {
-        ApiResponseDTO<ResultadoDijkstra> distancia = dijkstraService.calcularDistanciaEntreVertices(grafo, verticeOrigen, verticeDestino);
+        ApiResponseDTO<DijkstraDTO> distancia = dijkstraService.calcularDistanciaEntreVertices(grafo, verticeOrigen, verticeDestino);
         return new ResponseEntity<>(distancia, HttpStatusCode.valueOf(distancia.getStatus()));
     }
 }

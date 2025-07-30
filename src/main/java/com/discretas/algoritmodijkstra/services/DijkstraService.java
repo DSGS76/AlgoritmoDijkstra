@@ -3,7 +3,7 @@ package com.discretas.algoritmodijkstra.services;
 import com.discretas.algoritmodijkstra.models.Arista;
 import com.discretas.algoritmodijkstra.models.Grafo;
 import com.discretas.algoritmodijkstra.models.Vertice;
-import com.discretas.algoritmodijkstra.models.ResultadoDijkstra;
+import com.discretas.algoritmodijkstra.presentation.dto.DijkstraDTO;
 import com.discretas.algoritmodijkstra.presentation.dto.ApiResponseDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -31,8 +31,8 @@ public class DijkstraService {
      * @param verticeInicioId El ID del vértice desde donde comenzar el cálculo
      * @return Un mapa con las distancias mínimas y caminos desde el vértice inicial a cada vértice
      */
-    public ApiResponseDTO<Map<String, ResultadoDijkstra>> calcularCaminoMasCorto(Grafo grafo, String verticeInicioId) {
-        ApiResponseDTO<Map<String, ResultadoDijkstra>> response = new ApiResponseDTO<>();
+    public ApiResponseDTO<Map<String, DijkstraDTO>> calcularCaminoMasCorto(Grafo grafo, String verticeInicioId) {
+        ApiResponseDTO<Map<String, DijkstraDTO>> response = new ApiResponseDTO<>();
 
         // Mapa para almacenar la distancia mínima desde el vértice inicial a cada vértice
         Map<String, Integer> distancias = new HashMap<>();
@@ -94,11 +94,11 @@ public class DijkstraService {
         }
 
         // Construir el resultado con distancias y caminos
-        Map<String, ResultadoDijkstra> resultado = new HashMap<>();
+        Map<String, DijkstraDTO> resultado = new HashMap<>();
         for (String verticeId : distancias.keySet()) {
             int distancia = distancias.get(verticeId);
             List<String> camino = reconstruirCamino(predecesores, verticeInicioId, verticeId);
-            resultado.put(verticeId, new ResultadoDijkstra(distancia, camino));
+            resultado.put(verticeId, new DijkstraDTO(distancia, camino));
         }
 
         response.SuccessOperation(resultado);
@@ -114,27 +114,27 @@ public class DijkstraService {
      * @param verticeDestinoId El ID del vértice de destino
      * @return La distancia mínima y el camino entre los dos vértices
      */
-    public ApiResponseDTO<ResultadoDijkstra> calcularDistanciaEntreVertices(Grafo grafo, String verticeOrigenId, String verticeDestinoId) {
-        ApiResponseDTO<ResultadoDijkstra> response = new ApiResponseDTO<>();
+    public ApiResponseDTO<DijkstraDTO> calcularDistanciaEntreVertices(Grafo grafo, String verticeOrigenId, String verticeDestinoId) {
+        ApiResponseDTO<DijkstraDTO> response = new ApiResponseDTO<>();
 
         // Si origen y destino son el mismo, la distancia es 0
         if (verticeOrigenId.equals(verticeDestinoId)) {
-            ResultadoDijkstra resultado = new ResultadoDijkstra(0, List.of(verticeOrigenId));
+            DijkstraDTO resultado = new DijkstraDTO(0, List.of(verticeOrigenId));
             response.SuccessOperation(resultado);
             return response;
         }
 
         // Calcular todas las distancias desde el vértice origen
-        ApiResponseDTO<Map<String, ResultadoDijkstra>> resultados = calcularCaminoMasCorto(grafo, verticeOrigenId);
-        ResultadoDijkstra resultado = resultados.getData().get(verticeDestinoId);
+        ApiResponseDTO<Map<String, DijkstraDTO>> resultados = calcularCaminoMasCorto(grafo, verticeOrigenId);
+        DijkstraDTO resultado = resultados.getData().get(verticeDestinoId);
 
         // Verificar si existe un camino válido al destino
-        if (resultado == null || resultado.getDistancia() == Integer.MAX_VALUE) {
+        if (resultado == null || resultado.distancia() == Integer.MAX_VALUE) {
             log.info("Distancia: Inalcanzable");
             response.SuccessOperation();
             return response; // No hay camino disponible
         } else {
-            log.info("Distancia: " + resultado.getDistancia());
+            log.info("Distancia: " + resultado.distancia());
             response.SuccessOperation(resultado);
             return response; // Retornar la distancia y camino encontrados
         }

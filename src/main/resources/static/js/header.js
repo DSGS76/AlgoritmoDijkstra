@@ -32,5 +32,3 @@ document.addEventListener('DOMContentLoaded', function() {
     // Verificar scroll inicial en caso de que la página ya esté scrolleada
     handleScroll();
 });
-
-
