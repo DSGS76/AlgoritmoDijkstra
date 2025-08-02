@@ -12,7 +12,7 @@ import java.util.List;
  * Esta estructura de datos es utilizada para aplicar algoritmos de caminos más cortos
  * como el algoritmo de Dijkstra.
  *
- * @author Duvan
+ * @author Duvan Gil
  * @version 1.0
  */
 @AllArgsConstructor

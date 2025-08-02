@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  * Controlador de vistas para la gestión y visualización de grafos.
  * Permite acceder a la página principal y a la vista de creación de grafos.
  *
- * @author Duvan
+ * @author Duvan Gil
  * @version 1.0
  */
 @Controller

@@ -15,7 +15,7 @@ import java.util.*;
  * El algoritmo de Dijkstra es utilizado para encontrar el camino más corto desde un vértice
  * origen hacia todos los demás vértices en un grafo con pesos no negativos.
  *
- * @author Duvan
+ * @author Duvan Gil
  * @version 1.0
  * @see <a href="https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm">Algoritmo de Dijkstra</a>
  */

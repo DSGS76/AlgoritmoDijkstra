@@ -9,7 +9,7 @@ import lombok.Setter;
  * Representa una arista en un grafo dirigido.
  * Una arista conecta dos vértices y tiene un peso asociado.
  *
- * @author Duvan
+ * @author Duvan Gil
  * @version 1.0
  */
 @AllArgsConstructor

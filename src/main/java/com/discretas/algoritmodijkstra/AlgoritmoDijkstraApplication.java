@@ -5,11 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * Clase principal de la aplicación Spring Boot para el algoritmo de Dijkstra.
- *
  * Esta aplicación proporciona servicios REST para calcular caminos más cortos
  * en grafos utilizando el algoritmo de Dijkstra.
  *
- * @author Duvan
+ * @author Duvan Gil
  * @version 1.0
  */
 @SpringBootApplication

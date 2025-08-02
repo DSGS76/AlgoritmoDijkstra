@@ -6,6 +6,9 @@ package com.discretas.algoritmodijkstra.utils;
  * <p>
  * Esta clase no debe ser instanciada.
  * </p>
+ *
+ * @author Duvan Gil
+ * @version 1.0
  */
 public final class Constants {
 
@@ -70,6 +73,5 @@ public final class Constants {
 
         private Formats(){}
     }
-
 
 }

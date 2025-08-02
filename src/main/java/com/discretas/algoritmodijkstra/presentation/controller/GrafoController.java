@@ -16,7 +16,7 @@ import java.util.Map;
  * Proporciona endpoints para ejecutar el algoritmo de Dijkstra y calcular distancias
  * en grafos dirigidos con pesos.
  *
- * @author Duvan
+ * @author Duvan Gil
  * @version 1.0
  */
 @RestController

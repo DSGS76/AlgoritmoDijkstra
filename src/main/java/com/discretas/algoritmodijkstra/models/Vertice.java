@@ -9,7 +9,7 @@ import lombok.Setter;
  * Representa un vértice (nodo) en un grafo.
  * Un vértice es un punto en el grafo que puede estar conectado a otros vértices mediante aristas.
  *
- * @author Duvan
+ * @author Duvan Gil
  * @version 1.0
  */
 @AllArgsConstructor
