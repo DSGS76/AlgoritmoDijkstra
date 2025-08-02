@@ -1,57 +1,55 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: head('Crear Grafo')"></head>
-<body>
-    <header th:replace="fragments/header :: header"></header>
-    <main class="container">
-        <h2 class="page-title">Crear Grafo</h2>
-        <form id="grafoForm">
-            <div class="card-grid">
-                <fieldset class="card">
-                    <legend>● Vértices</legend>
-                    <div id="vertices-list" class="list-section"></div>
-                    <button type="button" class="btn-add" onclick="agregarVertice()">
-                        <span class="icon-button">+</span> Agregar vértice
-                    </button>
-                    <p class="help-text">Agrega nodos únicos con un identificador y una etiqueta.</p>
-                </fieldset>
-                <fieldset class="card">
-                    <legend>→ Aristas</legend>
-                    <div id="aristas-list" class="list-section"></div>
-                    <button type="button" class="btn-add" onclick="agregarArista()">
-                        <span class="icon-button">+</span> Agregar arista
-                    </button>
-                    <p class="help-text">Conecta dos vértices y asigna un peso positivo.</p>
-                </fieldset>
-            </div>
-            <div class="card-grid">
-                <fieldset class="card dijkstra-container dijkstra-primary">
-                    <legend>🔍 Ejecutar Dijkstra</legend>
-                    <label for="verticeInicio" class="label-bold">Vértice de inicio/origen:</label>
-                    <select id="verticeInicio" name="verticeInicio"></select>
-                    <button type="button" class="btn-dijkstra btn-dijkstra-primary" onclick="ejecutarDijkstra()">
-                        <span class="icon-button">🚀</span> Calcular caminos más cortos
-                    </button>
-                    <p class="help-text">Calcula la distancia mínima desde el vértice seleccionado a todos los demás.</p>
-                </fieldset>
-                <fieldset class="card dijkstra-container dijkstra-secondary">
-                    <legend>📍 Camino más corto entre dos puntos</legend>
-                    <label for="verticeOrigen" class="label-bold">Origen:</label>
-                    <select id="verticeOrigen" name="verticeOrigen"></select>
-                    <label for="verticeDestino" class="label-bold">Destino:</label>
-                    <select id="verticeDestino" name="verticeDestino"></select>
-                    <button type="button" class="btn-dijkstra btn-dijkstra-secondary" onclick="ejecutarDijkstraEntreDos()">
-                        <span class="icon-button">🎯</span> Calcular camino más corto
-                    </button>
-                    <p class="help-text">Obtén la distancia y la ruta óptima entre dos vértices.</p>
-                </fieldset>
-            </div>
-        </form>
-        <div id="resultado" class="result-card result-primary"></div>
-        <div id="resultadoEntreDos" class="result-card result-secondary"></div>
-    </main>
-    <footer th:replace="fragments/footer :: footer"></footer>
+<html th:replace="~{fragments/layout :: layout('Crear Grafo', ~{::main})}">
+
+<main class="container">
+    <h2 class="page-title">Crear Grafo</h2>
+    <form id="grafoForm">
+        <div class="card-grid">
+            <fieldset class="card">
+                <legend>● Vértices</legend>
+                <div id="vertices-list" class="list-section"></div>
+                <button type="button" class="btn-add" onclick="agregarVertice()">
+                    <span class="icon-button">+</span> Agregar vértice
+                </button>
+                <p class="help-text">Agrega nodos únicos con un identificador y una etiqueta.</p>
+            </fieldset>
+            <fieldset class="card">
+                <legend>→ Aristas</legend>
+                <div id="aristas-list" class="list-section"></div>
+                <button type="button" class="btn-add" onclick="agregarArista()">
+                    <span class="icon-button">+</span> Agregar arista
+                </button>
+                <p class="help-text">Conecta dos vértices y asigna un peso positivo.</p>
+            </fieldset>
+        </div>
+        <div class="card-grid">
+            <fieldset class="card dijkstra-container dijkstra-primary">
+                <legend>🔍 Ejecutar Dijkstra</legend>
+                <label for="verticeInicio" class="label-bold">Vértice de inicio/origen:</label>
+                <select id="verticeInicio" name="verticeInicio"></select>
+                <button type="button" class="btn-dijkstra btn-dijkstra-primary" onclick="ejecutarDijkstra()">
+                    <span class="icon-button">🚀</span> Calcular caminos más cortos
+                </button>
+                <p class="help-text">Calcula la distancia mínima desde el vértice seleccionado a todos los demás.</p>
+            </fieldset>
+            <fieldset class="card dijkstra-container dijkstra-secondary">
+                <legend>📍 Camino más corto entre dos puntos</legend>
+                <label for="verticeOrigen" class="label-bold">Origen:</label>
+                <select id="verticeOrigen" name="verticeOrigen"></select>
+                <label for="verticeDestino" class="label-bold">Destino:</label>
+                <select id="verticeDestino" name="verticeDestino"></select>
+                <button type="button" class="btn-dijkstra btn-dijkstra-secondary" onclick="ejecutarDijkstraEntreDos()">
+                    <span class="icon-button">🎯</span> Calcular camino más corto
+                </button>
+                <p class="help-text">Obtén la distancia y la ruta óptima entre dos vértices.</p>
+            </fieldset>
+        </div>
+    </form>
+    <div id="resultado" class="result-card result-primary"></div>
+    <div id="resultadoEntreDos" class="result-card result-secondary"></div>
+
     <script th:src="@{/js/grafo.js}"></script>
     <script th:src="@{/js/dijkstra.js}"></script>
-</body>
+</main>
+
 </html>
