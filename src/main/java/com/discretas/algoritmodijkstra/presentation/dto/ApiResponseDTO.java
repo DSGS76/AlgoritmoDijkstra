@@ -60,7 +60,7 @@ public class ApiResponseDTO<T> {
         setStatus(HttpStatus.OK.value());
         setTimestamp(LocalDateTime.now());
     }
-
+    
     /**
      * Configura la respuesta para una operación exitosa sin datos.
      */
@@ -97,7 +97,7 @@ public class ApiResponseDTO<T> {
         setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
         setTimestamp(LocalDateTime.now());
     }
-
+    
     /**
      * Configura la respuesta para una operación con solicitud incorrecta sin datos.
      * Establece un error de solicitud incorrecta (400).
